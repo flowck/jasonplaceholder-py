@@ -21,6 +21,10 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
+    "no-console": 0,
+    "no-underscore-dangle": 0,
+    "indent": ["error", "tab"],
+    "no-tabs": 0,
     // allow async-await
     'generator-star-spacing': 'off',
     // allow debugger during development
