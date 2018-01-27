@@ -1,13 +1,19 @@
 <template>
 	<div>
-		<h1>Posts</h1>
-		<hr>
 		<article class="card" v-for="post in posts">
 			<div class="card-content">
-				<h1 class="title is-4">{{ post.title }}</h1>
+				<h1 class="title is-4">
+					<a :href="'/posts/' + post.id"> {{ post.title }} </a>
+				</h1>
 				<p> {{ post.body }} </p>
 			</div>
 		</article>
+		
+		<div class="space"></div>
+
+		<button class="button is-primary">Load more posts</button>
+
+		<div class="space"></div>
 	</div>
 </template>
 
@@ -16,7 +22,9 @@
 		name: 'Posts',
 		data: () => {
 			return {
-				posts: []
+				posts: [],
+				allPosts: [],
+				loadPosition: 0,
 			}
 		},
 		created() {
@@ -27,12 +35,26 @@
 				this.$http.get('https://jsonplaceholder.typicode.com/posts')
 				.then(
 					(success) => {
-						this.posts = success.body;
+				
+						// Iterate the array of posts and return only 10
+						// posts.
+						for(let i = 0; i < success.body.length; i++) {
+							if(i < 10){
+								// Save 10 posts in posts array
+								this.posts.push(success.body[i]);
+								// Load position to fetch later when load more // is called
+								this.loadPosition = i;
+							}
+						}
+
 					},
 					(error) => {
 						console.log(error);
 					}
 				)
+			},
+			loadMorePosts() {
+
 			}
 		},
 	}
